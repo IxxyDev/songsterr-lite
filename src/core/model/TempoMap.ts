@@ -1,12 +1,22 @@
-export class TempoMap {
-  constructor(_input: TempoTrack) {}
+const SECONDS_IN_MINUTE = 60
 
-  tickToSeconds(_tick: number): number {
-    throw new Error('not implemented');
+export class TempoMap {
+  private readonly input: TempoTrack;
+
+  constructor(input: TempoTrack) {
+    this.input = input;
   }
 
-  secondsToTick(_seconds: number): number {
-    throw new Error('not implemented');
+  tickToSeconds(tick: number): number {
+    const { bpm } = this.input.tempoEvents[0];
+    const secondsPerTick = SECONDS_IN_MINUTE / (this.input.ppq * bpm);
+    return tick * secondsPerTick;
+  }
+
+  secondsToTick(seconds: number): number {
+    const { bpm } = this.input.tempoEvents[0];
+    const secondsPerTick = SECONDS_IN_MINUTE / (this.input.ppq * bpm);
+    return seconds / secondsPerTick;
   }
 }
 
