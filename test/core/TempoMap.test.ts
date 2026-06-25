@@ -39,4 +39,16 @@ describe('TempoMap', () => {
 
     expect(ticks).toEqual(1440);
   })
+
+  it('should report the total duration in seconds', () => {
+    const tempoMap = new TempoMap({
+      tempoEvents: [{ tick: 0, bpm: 120 }],
+      ppq: 480,
+      endTick: 960,
+    })
+
+    const fullDurationInSeconds = tempoMap.totalSeconds
+
+    expect(fullDurationInSeconds).toEqual(1.0)
+  })
 })
