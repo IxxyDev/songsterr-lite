@@ -20,5 +20,23 @@ describe('TempoMap', () => {
     const ticks = tempoMap.secondsToTick(0.5);
 
     expect(ticks).toEqual(480);
-  }) 
+  })
+
+  it('should convert ticks to seconds across a tempo change', () => {
+    const tempoEvents = [{ tick: 0, bpm: 120 }, { tick: 960, bpm: 60 }];
+    const tempoMap = new TempoMap({ tempoEvents, ppq: PPQ, endTick: 10_000 });
+
+    const timeInSeconds = tempoMap.tickToSeconds(1440);
+
+    expect(timeInSeconds).toEqual(2.0)
+  })
+
+  it('should convert seconds to ticks across a tempo change', () => {
+    const tempoEvents = [{ tick: 0, bpm: 120 }, { tick: 960, bpm: 60 }];
+    const tempoMap = new TempoMap({ tempoEvents, ppq: PPQ, endTick: 10_000 });
+
+    const ticks = tempoMap.secondsToTick(2.0);
+
+    expect(ticks).toEqual(1440);
+  })
 })
