@@ -2,9 +2,15 @@ const SECONDS_IN_MINUTE = 60
 
 export class TempoMap {
   private readonly segments: Segment[];
+  private readonly endTick: number;
 
   constructor(input: TempoTrack) {
     this.segments = buildSegments(input);
+    this.endTick = input.endTick;
+  }
+
+  get totalSeconds(): number {
+    return this.tickToSeconds(this.endTick)
   }
 
   tickToSeconds(tick: number): number {
