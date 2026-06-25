@@ -32,7 +32,7 @@ export class TempoMap {
   }
 }
 
-function buildSegments({ tempoEvents, ppq, endTick }: TempoTrack): Segment[] {
+function buildSegments({ tempoEvents, ppq }: TempoTrack): Segment[] {
   const segments: Segment[] = [];
   let accumulatedSeconds = 0;
 
@@ -46,8 +46,10 @@ function buildSegments({ tempoEvents, ppq, endTick }: TempoTrack): Segment[] {
       secondsPerTick,
     });
 
-    const nextTick = i + 1 < tempoEvents.length ? tempoEvents[i + 1].tick : endTick;
-    accumulatedSeconds += (nextTick - event.tick) * secondsPerTick;
+    const nextEvent = tempoEvents[i + 1];
+    if (nextEvent) {
+      accumulatedSeconds += (nextEvent.tick - event.tick) * secondsPerTick;
+    }
   }
 
   return segments;
